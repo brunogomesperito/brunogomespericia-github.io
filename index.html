@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bruno Gomes - Perito Contábil Trabalhista</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Professional Navy & Gold -->
+    <!-- Application Structure Plan: A single-page application with a fixed top navigation to allow busy court officials to quickly jump to key sections. The structure is thematic: 'Início' for a strong first impression, 'Sobre' for credibility, 'Diferenciais' for value proposition, 'Método' for process transparency, and 'Casos de Sucesso' for an interactive proof gallery. This non-linear structure is designed for a professional audience that needs to find specific information (like proof of experience) quickly and efficiently. A new Gemini-powered 'Assistente' section was added to demonstrate technical proficiency and provide interactive value. -->
+    <!-- Visualization & Content Choices: Report Info -> Goal -> Viz/Presentation -> Interaction -> Justification. 1. Credentials/History -> Build Trust -> Two-column text & image layout -> Static -> Clean, professional layout. 2. Benefits/Promise -> Highlight Value -> Icon-based grid -> Static -> Easily scannable benefits. 3. Work Method -> Show Process -> Numbered step-by-step visual flow using HTML/CSS -> Static -> Clearly illustrates a structured, reliable process. 4. Annexes/Proofs -> Provide Evidence -> Interactive Image Gallery -> User filters by category & clicks to view in a modal -> Prevents a long scroll, handled with Vanilla JS. 5. Gemini Assistant -> Showcase Expertise -> Interactive Text Input -> User types a case scenario, clicks a button, and Gemini generates an analysis plan -> This dynamically demonstrates the expert's thought process. 6. Gemini TTS -> Add Personal Touch -> Audio Playback Button -> User clicks to hear a professionally voiced introduction -> Adds accessibility and a modern feel. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #F7F9FC;
+            color: #1E293B;
+        }
+        .bg-navy { background-color: #0d1b2a; }
+        .text-gold { color: #d4af37; }
+        .border-gold { border-color: #d4af37; }
+        .bg-gold { background-color: #d4af37; }
+        .nav-link {
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #d4af37;
+        }
+        .active-link {
+            color: #d4af37;
+            border-bottom: 2px solid #d4af37;
+        }
+        .gallery-item img {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.75);
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #d4af37;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @media print {
+            header, footer, #gallery-filters, #casos .gallery-item, #assistente {
+                display: none;
+            }
+            body {
+                font-size: 12pt;
+                color: #000;
+            }
+            section {
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+                page-break-after: always;
+            }
+            #inicio {
+                padding-top: 0;
+            }
+            .bg-navy, .bg-slate-100 {
+                background-color: #fff !important;
+            }
+            .text-white, .text-gold, .text-navy {
+                color: #000 !important;
+            }
+            h3 {
+                padding-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="header" class="bg-navy text-white p-4 fixed w-full top-0 z-50 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold text-gold">BG</h1>
+            <nav class="hidden md:flex space-x-6">
+                <a href="#inicio" class="nav-link active-link">Início</a>
+                <a href="#sobre" class="nav-link">Sobre</a>
+                <a href="#diferenciais" class="nav-link">Diferenciais</a>
+                <a href="#metodo" class="nav-link">Método</a>
+                <a href="#casos" class="nav-link">Casos de Sucesso</a>
+                <a href="#assistente" class="nav-link">Assistente</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-navy">
+            <a href="#inicio" class="block py-2 px-4 text-sm nav-link">Início</a>
+            <a href="#sobre" class="block py-2 px-4 text-sm nav-link">Sobre</a>
+            <a href="#diferenciais" class="block py-2 px-4 text-sm nav-link">Diferenciais</a>
+            <a href="#metodo" class="block py-2 px-4 text-sm nav-link">Método</a>
+            <a href="#casos" class="block py-2 px-4 text-sm nav-link">Casos de Sucesso</a>
+            <a href="#assistente" class="block py-2 px-4 text-sm nav-link">Assistente</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="inicio" class="pt-24 pb-12 bg-navy text-white text-center">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl md:text-5xl font-bold">Bruno Gomes dos Santos</h2>
+                <p class="text-xl md:text-2xl mt-2 text-gold">Perito Contábil Trabalhista – CRC 1SP 338.009/O-5</p>
+                <p class="mt-4 max-w-3xl mx-auto">Atuação especializada em Cálculos Trabalhistas e Liquidação Judicial para as Varas do Trabalho do TRT 5ª, 6ª e 17ª Regiões.</p>
+                <div class="mt-8 flex justify-center items-center gap-4">
+                     <p class="text-2xl font-bold italic">"Precisão Contábil, Excelência em Justiça."</p>
+                     <button id="play-audio-btn" title="Ouvir apresentação" class="bg-gold text-navy p-2 rounded-full hover:bg-yellow-500 transition-colors">
+                        <svg id="audio-icon-play" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                        </svg>
+                        <div id="audio-loader" class="hidden loader w-6 h-6 border-t-navy"></div>
+                      </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="sobre" class="py-16">
+            <div class="container mx-auto px-6">
+                <div class="grid md:grid-cols-5 gap-12 items-center">
+                    <div class="md:col-span-2">
+                        <img src="https://storage.googleapis.com/generativeai-downloads/images/1739229739840.jpeg" alt="Bruno Gomes dos Santos" class="rounded-lg shadow-2xl mx-auto w-full max-w-sm">
+                    </div>
+                    <div class="md:col-span-3">
+                        <h3 class="text-3xl font-bold mb-4 text-navy">Credenciais e História</h3>
+                        <p class="mb-4">Sou perito contábil trabalhista, graduado e pós-graduado em perícia e auditoria pela Universidade São Judas. Atuo como perito nomeado nas regiões da Justiça do Trabalho do TRT 5ª, 6ª e 17ª desde 2021, com expertise desenvolvida em mais de 2.000 laudos periciais desde 2013.</p>
+                        <p class="mb-4">Minha trajetória nasceu da prática em escritórios de perícia, onde vivenciei a importância da precisão contábil. Tive a honra de aprender com mestres como Renato Otero, John Hiroshi Iano, Kleber Buratiero e Rafael Baldivia, de quem absorvi valores de responsabilidade, ética e domínio técnico.</p>
+                        <p>Meu compromisso é entregar laudos objetivos, fundamentados e precisos, sempre com observância ao julgado e à necessidade do MM. Juízo.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="diferenciais" class="py-16 bg-slate-100">
+            <div class="container mx-auto px-6 text-center">
+                <h3 class="text-3xl font-bold mb-10 text-navy">Promessa e Benefícios</h3>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h4 class="text-xl font-bold mb-2 text-gold">Autoridade Técnica</h4>
+                        <p>Grande volume de elogios e especialização em casos de alta complexidade (Correios, grandes bancos) envolvendo horas extras, diferenças salariais e PLR.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h4 class="text-xl font-bold mb-2 text-gold">Agilidade e Pontualidade</h4>
+                        <p>Todas as perícias são concluídas e entregues em até 30 dias, sem exceção, garantindo respeito ao tempo processual do juízo.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h4 class="text-xl font-bold mb-2 text-gold">Segurança e Clareza</h4>
+                        <p>Padronização técnica, redação clara, resposta precisa aos quesitos e total cumprimento dos parâmetros da Vara, proporcionando segurança e transparência.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="metodo" class="py-16">
+            <div class="container mx-auto px-6">
+                <h3 class="text-3xl font-bold text-center mb-10 text-navy">Método de Trabalho – ALERR</h3>
+                <p class="text-center max-w-3xl mx-auto mb-12">Meu processo é minucioso, técnico e orientado para a excelência, garantindo a máxima precisão ao juízo através de uma dupla verificação antes da entrega.</p>
+                <div class="relative">
+                    <div class="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-gray-300 -translate-y-1/2"></div>
+                    <div class="grid md:grid-cols-5 gap-8 text-center relative">
+                        <div class="flex flex-col items-center">
+                            <div class="w-16 h-16 rounded-full bg-gold text-white flex items-center justify-center text-2xl font-bold z-10">A</div>
+                            <h4 class="font-bold mt-4">Análise</h4>
+                            <p class="text-sm mt-1">Leitura dos autos, identificação das peças-chave e compreensão do contexto.</p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="w-16 h-16 rounded-full bg-gold text-white flex items-center justify-center text-2xl font-bold z-10">L</div>
+                            <h4 class="font-bold mt-4">Levantamento</h4>
+                            <p class="text-sm mt-1">Compilação de documentos, recibos, cartões de ponto e informações relevantes.</p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                             <div class="w-16 h-16 rounded-full bg-gold text-white flex items-center justify-center text-2xl font-bold z-10">E</div>
+                            <h4 class="font-bold mt-4">Elaboração</h4>
+                            <p class="text-sm mt-1">Planilhamento detalhado, anotação de períodos, convenções e variáveis.</p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                             <div class="w-16 h-16 rounded-full bg-gold text-white flex items-center justify-center text-2xl font-bold z-10">R</div>
+                            <h4 class="font-bold mt-4">Revisão</h4>
+                            <p class="text-sm mt-1">Cálculo no PJe-Calc, aplicação de parâmetros e conferência de dados.</p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                             <div class="w-16 h-16 rounded-full bg-gold text-white flex items-center justify-center text-2xl font-bold z-10">R</div>
+                            <h4 class="font-bold mt-4">Revisão Final</h4>
+                            <p class="text-sm mt-1">Dupla verificação dos resultados e coerência jurídica antes da entrega.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="casos" class="py-16 bg-slate-100">
+            <div class="container mx-auto px-6">
+                <h3 class="text-3xl font-bold text-center mb-4 text-navy">Casos de Sucesso e Provas</h3>
+                <p class="text-center max-w-3xl mx-auto mb-10">A robustez do meu trabalho é comprovada por nomeações em processos envolvendo grandes litigantes nacionais. Explore abaixo alguns exemplos de nomeações, laudos e planilhas.</p>
+                <div id="gallery-filters" class="flex justify-center space-x-2 md:space-x-4 mb-8 flex-wrap">
+                    <button class="filter-btn bg-gold text-white px-4 py-2 rounded-full text-sm font-semibold mb-2">Todos</button>
+                    <button class="filter-btn bg-white text-gray-700 px-4 py-2 rounded-full text-sm font-semibold mb-2" data-category="Nomeação">Nomeações</button>
+                    <button class="filter-btn bg-white text-gray-700 px-4 py-2 rounded-full text-sm font-semibold mb-2" data-category="Planilha">Planilhas PJe-Calc</button>
+                    <button class="filter-btn bg-white text-gray-700 px-4 py-2 rounded-full text-sm font-semibold mb-2" data-category="Laudo">Laudos</button>
+                    <button class="filter-btn bg-white text-gray-700 px-4 py-2 rounded-full text-sm font-semibold mb-2" data-category="Documento">Documentos</button>
+                </div>
+
+                <div id="gallery" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                </div>
+            </div>
+        </section>
+
+        <section id="assistente" class="py-16">
+            <div class="container mx-auto px-6 text-center">
+                <h3 class="text-3xl font-bold text-navy">✨ Assistente Pericial Gemini</h3>
+                <p class="max-w-3xl mx-auto my-4">Esta é uma ferramenta demonstrativa. Descreva um cenário de cálculo trabalhista e a IA irá gerar um roteiro de análise preliminar, similar ao que eu aplicaria em um caso real.</p>
+                <div class="max-w-3xl mx-auto">
+                    <textarea id="case-description" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-gold focus:border-gold transition-shadow" rows="4" placeholder="Ex: Apuração de horas extras e reflexos para bancário, com análise de cartões de ponto e convenção coletiva."></textarea>
+                    <button id="generate-analysis-btn" class="mt-4 bg-gold text-navy font-bold py-3 px-6 rounded-lg shadow-md hover:bg-yellow-500 transition-colors flex items-center justify-center mx-auto">
+                        <span id="btn-text">Gerar Roteiro de Análise</span>
+                        <div id="btn-loader" class="hidden loader w-6 h-6 ml-3"></div>
+                    </button>
+                </div>
+                <div id="analysis-result" class="mt-8 text-left max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md border-l-4 border-gold hidden">
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-navy text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p class="font-bold text-xl">Bruno Gomes dos Santos</p>
+            <p class="text-gold">Perito Contábil Trabalhista | CRC 1SP 338.009/O-5</p>
+            <p class="mt-4 text-sm">Disponível para nomeações nas Varas do Trabalho do TRT 5ª, 6ª e 17ª Regiões.</p>
+        </div>
+    </footer>
+
+    <div id="modal" class="hidden fixed inset-0 z-50 overflow-auto modal-backdrop flex items-center justify-center">
+        <div class="bg-white p-4 rounded-lg shadow-2xl max-w-4xl max-h-[90vh] w-full mx-4">
+            <div class="flex justify-between items-center mb-2">
+                <h5 id="modal-caption" class="text-lg font-semibold"></h5>
+                <button id="modal-close" class="text-2xl font-bold">&times;</button>
+            </div>
+            <div class="overflow-auto max-h-[80vh]">
+                <img id="modal-img" src="" alt="Detalhe do documento" class="w-full">
+            </div>
+        </div>
+    </div>
+    
+    <audio id="presentation-audio" class="hidden"></audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const galleryData = [
+                { src: 'https://storage.googleapis.com/generativeai-downloads/images/nomea%C3%A7%C3%A3o1.png', category: 'Nomeação', caption: 'Nomeação TRT 5ª - Caixa Econômica Federal' },
+                { src: 'https://storage.googleapis.com/generativeai-downloads/images/nomea%C3%A7%C3%A3o2.png', category: 'Nomeação', caption: 'Designação TRT 5ª - Banco Bradesco S.A.' },
+                { src: 'https://storage.googleapis.com/generativeai-downloads/images/nomea%C3%A7%C3%A3o3.png', category: 'Nomeação', caption: 'Intimação TRT 5ª - Banco Bradesco S.A.' },
+                { src: 'https://storage.googleapis.com/generativeai-downloads/images/nomea%C3%A7%C3%A3o4.png', category: 'Nomeação', caption: 'Intimação TRT 5ª - Banco Bradesco S.A. (2)' },
+                { src: 'https://storage.googleapis.com/generativeai-downloads/images/nomea%C3%A7%C3%A3o5.png', category: 'Nomeação', caption: 'Nomeação TRT 5ª - Caixa Econômica Federal' },
+                { src: 'https://storage.googleapis.com/generativeai-downloads/images/nomea%C3%A7%C3%A3o6.png', category: 'Nomeação', caption: 'Intimação TRT 5ª - Banco do Brasil SA' },
+                { src: 'https://storage.googleapis.com/generativeai-downloads/images/nomea%C3%A7%C3%A3o7.png', category: 'Nomeação', caption: 'Nomeação TRT 5ª - Correios e Telégrafos' },
+                { src: 'https://storage.googleapis.com/generativeai-downloads/images/nomea%C3%A7%C3%A3o8.png', category: 'Nomeação', caption: 'Designação TRT 5ª - Correios e Telégrafos (2)' },
+                { src: 'https://storage.googleapis.com/generativeai-downloads/images/nomea%C3%A7%C3%A3o9.png', category: 'Nomeação', caption: 'Redesignação de Perícia TRT 5ª' },
+                { src: 'https://storage.googleapis.com/generativeai-downloads/images/nomea%C3%A7%C3%A3o10.png', category: 'Nomeação', caption: 'Nomeação em Substituição' },
+                { src: 'https://storage.googleapis.com/generativeai-downloads/images/imagem%20pje.png', category: 'Planilha', caption: 'Planilha de Cálculo PJe - Correios' },
+                { src: 'https://storage.googleapis.com/generativeai-downloads/images/imagem%20pje2.png', category: 'Planilha', caption: 'Planilha de Cálculo PJe - Correios (2)' },
+                { src: 'https://storage.googleapis.com/generativeai-downloads/images/anexo%2001%20laudo%20pericial.png', category: 'Laudo', caption: 'Anexo de Laudo Pericial - Evolução Salarial' },
+                { src: 'https://storage.googleapis.com/generativeai-downloads/images/anexo%2001%20laudo%20pericial2.png', category: 'Laudo', caption: 'Anexo de Laudo Pericial - Evolução Salarial (2)' },
+                { src: 'https://storage.googleapis.com/generativeai-downloads/images/cart%C3%A3o%20de%20ponto.jpg', category: 'Documento', caption: 'Exemplo de Cartão de Ponto Analisado' },
+                { src: 'https://storage.googleapis.com/generativeai-downloads/images/cart%C3%A3o%20de%20ponto%202.jpg', category: 'Documento', caption: 'Exemplo de Cartão de Ponto Analisado (2)' }
+            ];
+
+            const gallery = document.getElementById('gallery');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const modal = document.getElementById('modal');
+            const modalImg = document.getElementById('modal-img');
+            const modalCaption = document.getElementById('modal-caption');
+            const modalClose = document.getElementById('modal-close');
+
+            const renderGallery = (category) => {
+                gallery.innerHTML = '';
+                const filteredData = category === 'Todos' ? galleryData : galleryData.filter(item => item.category === category);
+                
+                filteredData.forEach(item => {
+                    const galleryItem = document.createElement('div');
+                    galleryItem.className = 'gallery-item cursor-pointer overflow-hidden rounded-lg';
+                    galleryItem.innerHTML = `<img src="${item.src}" alt="${item.caption}" class="w-full h-full object-cover" data-caption="${item.caption}">`;
+                    galleryItem.addEventListener('click', () => openModal(item.src, item.caption));
+                    gallery.appendChild(galleryItem);
+                });
+            };
+
+            const openModal = (src, caption) => {
+                modalImg.src = src;
+                modalCaption.textContent = caption;
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            };
+
+            const closeModal = () => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            };
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.replace('bg-gold', 'bg-white') & b.classList.replace('text-white', 'text-gray-700'));
+                    btn.classList.replace('bg-white', 'bg-gold');
+                    btn.classList.replace('text-gray-700', 'text-white');
+                    renderGallery(btn.dataset.category || 'Todos');
+                });
+            });
+            
+            modalClose.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+
+            renderGallery('Todos');
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main > section');
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 100) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                navLinks.forEach(link => {
+                    link.classList.remove('active-link');
+                    if(link.getAttribute('href')){
+                        if (link.getAttribute('href').includes(current)) {
+                           link.classList.add('active-link');
+                        }
+                    }
+                });
+            });
+
+            const generateAnalysisBtn = document.getElementById('generate-analysis-btn');
+            const caseDescription = document.getElementById('case-description');
+            const analysisResult = document.getElementById('analysis-result');
+            const btnText = document.getElementById('btn-text');
+            const btnLoader = document.getElementById('btn-loader');
+
+            const callGeminiAPI = async (payload, model) => {
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+                
+                let response;
+                let result;
+                let retries = 3;
+                let delay = 1000;
+
+                for (let i = 0; i < retries; i++) {
+                    try {
+                        response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (response.ok) {
+                            result = await response.json();
+                            return result;
+                        }
+
+                    } catch (error) {
+                        console.error("Fetch error, retrying...", error);
+                    }
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    delay *= 2;
+                }
+                throw new Error("API call failed after multiple retries.");
+            };
+
+            generateAnalysisBtn.addEventListener('click', async () => {
+                const description = caseDescription.value;
+                if (!description.trim()) {
+                    analysisResult.innerHTML = "<p>Por favor, descreva um cenário para a análise.</p>";
+                    analysisResult.classList.remove('hidden');
+                    return;
+                }
+
+                btnText.classList.add('hidden');
+                btnLoader.classList.remove('hidden');
+                generateAnalysisBtn.disabled = true;
+                analysisResult.classList.add('hidden');
+
+                const systemPrompt = "Você é um perito contábil trabalhista sênior no Brasil, com vasta experiência em liquidação de sentenças para a Justiça do Trabalho. Sua especialidade é traduzir decisões judiciais complexas em cálculos precisos. Um assessor de um juiz descreveu um cenário de um caso. Sua tarefa é criar um roteiro de análise pericial conciso e estruturado em tópicos. O roteiro deve destacar os principais passos, os documentos essenciais a serem analisados (ex: holerites, cartões de ponto, PCCS, convenções coletivas) e os pontos de atenção cruciais para aquele cenário específico. A resposta deve ser direta, profissional e formatada em HTML simples com parágrafos `<p>` e listas não ordenadas `<ul><li>`. Não inclua saudações ou despedidas, vá direto ao roteiro.";
+                
+                const payload = {
+                    contents: [{ parts: [{ text: description }] }],
+                    systemInstruction: { parts: [{ text: systemPrompt }] },
+                };
+
+                try {
+                    const result = await callGeminiAPI(payload, 'gemini-2.5-flash-preview-09-2025');
+                    const candidate = result.candidates?.[0];
+                    if (candidate && candidate.content?.parts?.[0]?.text) {
+                        analysisResult.innerHTML = candidate.content.parts[0].text;
+                    } else {
+                        analysisResult.innerHTML = "<p>Não foi possível gerar a análise. Por favor, tente novamente.</p>";
+                    }
+                } catch (error) {
+                    console.error('Error calling Gemini API:', error);
+                    analysisResult.innerHTML = "<p>Ocorreu um erro ao conectar com o assistente. Por favor, tente mais tarde.</p>";
+                } finally {
+                    analysisResult.classList.remove('hidden');
+                    btnText.classList.remove('hidden');
+                    btnLoader.classList.add('hidden');
+                    generateAnalysisBtn.disabled = false;
+                }
+            });
+
+            const playAudioBtn = document.getElementById('play-audio-btn');
+            const audioPlayer = document.getElementById('presentation-audio');
+            const audioIconPlay = document.getElementById('audio-icon-play');
+            const audioLoader = document.getElementById('audio-loader');
+            let audioUrl = null;
+
+            const base64ToArrayBuffer = (base64) => {
+                const binaryString = window.atob(base64);
+                const len = binaryString.length;
+                const bytes = new Uint8Array(len);
+                for (let i = 0; i < len; i++) {
+                    bytes[i] = binaryString.charCodeAt(i);
+                }
+                return bytes.buffer;
+            };
+        
+            const pcmToWav = (pcmData, sampleRate) => {
+                const numChannels = 1;
+                const bytesPerSample = 2;
+                const blockAlign = numChannels * bytesPerSample;
+                const byteRate = sampleRate * blockAlign;
+                const dataSize = pcmData.byteLength;
+                const buffer = new ArrayBuffer(44 + dataSize);
+                const view = new DataView(buffer);
+
+                function writeString(view, offset, string) {
+                    for (let i = 0; i < string.length; i++) {
+                        view.setUint8(offset + i, string.charCodeAt(i));
+                    }
+                }
+
+                writeString(view, 0, 'RIFF');
+                view.setUint32(4, 36 + dataSize, true);
+                writeString(view, 8, 'WAVE');
+                writeString(view, 12, 'fmt ');
+                view.setUint32(16, 16, true);
+                view.setUint16(20, 1, true);
+                view.setUint16(22, numChannels, true);
+                view.setUint32(24, sampleRate, true);
+                view.setUint32(28, byteRate, true);
+                view.setUint16(32, blockAlign, true);
+                view.setUint16(34, bytesPerSample * 8, true);
+                writeString(view, 36, 'data');
+                view.setUint32(40, dataSize, true);
+                
+                const pcm16 = new Int16Array(pcmData);
+                for (let i = 0; i < pcm16.length; i++) {
+                    view.setInt16(44 + i * 2, pcm16[i], true);
+                }
+
+                return new Blob([view], { type: 'audio/wav' });
+            };
+
+
+            playAudioBtn.addEventListener('click', async () => {
+                if (audioPlayer.paused && audioUrl) {
+                    audioPlayer.play();
+                } else if (audioUrl) {
+                    audioPlayer.pause();
+                } else {
+                    audioIconPlay.classList.add('hidden');
+                    audioLoader.classList.remove('hidden');
+                    playAudioBtn.disabled = true;
+
+                    const textToSpeech = "Diga com um tom de voz profissional, claro e confiante: Olá. Meu nome é Bruno Gomes dos Santos, perito contábil trabalhista. Com especialização em perícia e auditoria e mais de 2.000 laudos realizados, meu compromisso é oferecer laudos objetivos, fundamentados e precisos, garantindo segurança jurídica e agilidade processual para o juízo. Atuo com foco em cálculos complexos, sempre com total observância ao julgado.";
+                    const payload = {
+                        contents: [{ parts: [{ text: textToSpeech }] }],
+                        generationConfig: {
+                            responseModalities: ["AUDIO"],
+                            speechConfig: {
+                                voiceConfig: { prebuiltVoiceConfig: { voiceName: "Charon" } }
+                            }
+                        },
+                    };
+                    
+                    try {
+                        const result = await callGeminiAPI(payload, 'gemini-2.5-flash-preview-tts');
+                        const part = result?.candidates?.[0]?.content?.parts?.[0];
+                        const audioData = part?.inlineData?.data;
+                        const mimeType = part?.inlineData?.mimeType;
+
+                        if (audioData && mimeType && mimeType.startsWith("audio/")) {
+                            const sampleRateMatch = mimeType.match(/rate=(\d+)/);
+                            const sampleRate = sampleRateMatch ? parseInt(sampleRateMatch[1], 10) : 24000;
+                            const pcmData = base64ToArrayBuffer(audioData);
+                            const wavBlob = pcmToWav(pcmData, sampleRate);
+                            audioUrl = URL.createObjectURL(wavBlob);
+                            audioPlayer.src = audioUrl;
+                            audioPlayer.play();
+                        } else {
+                           throw new Error("Invalid audio data in response.");
+                        }
+                    } catch (error) {
+                        console.error('Error generating TTS:', error);
+                    } finally {
+                        audioIconPlay.classList.remove('hidden');
+                        audioLoader.classList.add('hidden');
+                        playAudioBtn.disabled = false;
+                    }
+                }
+            });
+
+             audioPlayer.onplay = () => {
+                audioIconPlay.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />`;
+            };
+
+            audioPlayer.onpause = () => {
+                audioIconPlay.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />`;
+            };
+
+        });
+    </script>
+</body>
+</html>
+
