@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Professional Navy & Gold --><!-- Application Structure Plan: A single-page application with a fixed top navigation to allow busy court officials to quickly jump to key sections. The structure is thematic: 'Início' for a strong first impression, 'Sobre' for credibility, 'Diferenciais' for value proposition, 'Método' for process transparency, and 'Casos de Sucesso' for an an interactive proof gallery. This non-linear structure is designed for a professional audience that needs to find specific information (like proof of experience) quickly and efficiently. A new Gemini-powered 'Assistente' section was added to demonstrate technical proficiency and provide interactive value. --><!-- Visualization & Content Choices: Report Info -> Goal -> Viz/Presentation -> Interaction -> Justification. 1. Credentials/History -> Build Trust -> Two-column text & image layout -> Static -> Clean, professional layout. 2. Benefits/Promise -> Highlight Value -> Icon-based grid -> Static -> Easily scannable benefits. 3. Work Method -> Show Process -> Numbered step-by-step visual flow using HTML/CSS -> Static -> Clearly illustrates a structured, reliable process. 4. Annexes/Proofs -> Provide Evidence -> Interactive Image Gallery -> User filters by category & clicks to view in a modal -> Prevents a long scroll, handled with Vanilla JS. 5. Gemini Assistant -> Showcase Expertise -> Interactive Text Input -> User types a case scenario, clicks a button, and Gemini generates an analysis plan -> This dynamically demonstrates the expert's thought process. 6. Gemini TTS -> Add Personal Touch -> Audio Playback Button -> User clicks to hear a professionally voiced introduction -> Adds accessibility and a modern feel. --><!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. --><style>
+    <!-- Chosen Palette: Professional Navy & Gold --><!-- Application Structure Plan: A single-page application with a fixed top navigation to allow busy court officials to quickly jump to key sections. The structure is thematic: 'Início' for a strong first impression, 'Sobre' for credibility, 'Diferenciais' for value proposition, 'Método' for process transparency, and 'Casos de Sucesso' for an an interactive proof gallery. This non-linear structure is designed for a professional audience that needs to find specific information (like proof of experience) quickly and efficiently. --><!-- Visualization & Content Choices: Report Info -> Goal -> Viz/Presentation -> Interaction -> Justification. 1. Credentials/History -> Build Trust -> Two-column text & image layout -> Static -> Clean, professional layout. 2. Benefits/Promise -> Highlight Value -> Icon-based grid -> Static -> Easily scannable benefits. 3. Work Method -> Show Process -> Numbered step-by-step visual flow using HTML/CSS -> Static -> Clearly illustrates a structured, reliable process. 4. Annexes/Proofs -> Provide Evidence -> Interactive Image Gallery -> User filters by category & clicks to view in a modal -> Prevents a long scroll, handled with Vanilla JS. --><!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. --><style>
         body {
             font-family: 'Montserrat', sans-serif;
             background-color: #F7F9FC;
@@ -38,20 +38,8 @@
         .modal-backdrop {
             background-color: rgba(0, 0, 0, 0.75);
         }
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #d4af37;
-            border-radius: 50%;
-            width: 32px;
-            height: 32px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
         @media print {
-            header, footer, #gallery-filters, #casos .gallery-item, #assistente {
+            header, footer, #gallery-filters, #casos .gallery-item {
                 display: none;
             }
             body {
@@ -91,7 +79,6 @@
                 <a href="#diferenciais" class="nav-link">Diferenciais</a>
                 <a href="#metodo" class="nav-link">Método</a>
                 <a href="#casos" class="nav-link">Casos de Sucesso</a>
-                <a href="#assistente" class="nav-link">Assistente</a>
             </nav>
             <button id="mobile-menu-button" class="md:hidden text-white">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
@@ -103,7 +90,6 @@
             <a href="#diferenciais" class="block py-2 px-4 text-sm nav-link">Diferenciais</a>
             <a href="#metodo" class="block py-2 px-4 text-sm nav-link">Método</a>
             <a href="#casos" class="block py-2 px-4 text-sm nav-link">Casos de Sucesso</a>
-            <a href="#assistente" class="block py-2 px-4 text-sm nav-link">Assistente</a>
         </div>
     </header>
 
@@ -115,12 +101,6 @@
                 <p class="mt-4 max-w-3xl mx-auto">Atuação especializada em Cálculos Trabalhistas e Liquidação Judicial para as Varas do Trabalho do TRT 5ª, 6ª e 17ª Regiões.</p>
                 <div class="mt-8 flex justify-center items-center gap-4">
                      <p class="text-2xl font-bold italic">"Precisão Contábil, Excelência em Justiça."</p>
-                     <button id="play-audio-btn" title="Ouvir apresentação" class="bg-gold text-navy p-2 rounded-full hover:bg-yellow-500 transition-colors">
-                        <svg id="audio-icon-play" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-                        </svg>
-                        <div id="audio-loader" class="hidden loader w-6 h-6 border-t-navy"></div>
-                      </button>
                 </div>
             </div>
         </section>
@@ -215,22 +195,6 @@
             </div>
         </section>
 
-        <section id="assistente" class="py-16">
-            <div class="container mx-auto px-6 text-center">
-                <h3 class="text-3xl font-bold text-navy">✨ Assistente Pericial Gemini</h3>
-                <p class="max-w-3xl mx-auto my-4">Esta é uma ferramenta demonstrativa. Descreva um cenário de cálculo trabalhista e a IA irá gerar um roteiro de análise preliminar, similar ao que eu aplicaria em um caso real.</p>
-                <div class="max-w-3xl mx-auto">
-                    <textarea id="case-description" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-gold focus:border-gold transition-shadow" rows="4" placeholder="Ex: Apuração de horas extras e reflexos para bancário, com análise de cartões de ponto e convenção coletiva."></textarea>
-                    <button id="generate-analysis-btn" class="mt-4 bg-gold text-navy font-bold py-3 px-6 rounded-lg shadow-md hover:bg-yellow-500 transition-colors flex items-center justify-center mx-auto">
-                        <span id="btn-text">Gerar Roteiro de Análise</span>
-                        <div id="btn-loader" class="hidden loader w-6 h-6 ml-3"></div>
-                    </button>
-                </div>
-                <div id="analysis-result" class="mt-8 text-left max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md border-l-4 border-gold hidden">
-                </div>
-            </div>
-        </section>
-
     </main>
 
     <footer class="bg-navy text-white py-8">
@@ -253,8 +217,6 @@
         </div>
     </div>
     
-    <audio id="presentation-audio" class="hidden"></audio>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const galleryData = [
@@ -349,193 +311,6 @@
                     }
                 });
             });
-
-            const generateAnalysisBtn = document.getElementById('generate-analysis-btn');
-            const caseDescription = document.getElementById('case-description');
-            const analysisResult = document.getElementById('analysis-result');
-            const btnText = document.getElementById('btn-text');
-            const btnLoader = document.getElementById('btn-loader');
-
-            const callGeminiAPI = async (payload, model) => {
-                const apiKey = ""; // Substitua pela sua chave de API Gemini
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-                
-                let response;
-                let result;
-                let retries = 3;
-                let delay = 1000;
-
-                for (let i = 0; i < retries; i++) {
-                    try {
-                        response = await fetch(apiUrl, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(payload)
-                        });
-
-                        if (response.ok) {
-                            result = await response.json();
-                            return result;
-                        }
-
-                    } catch (error) {
-                        console.error("Fetch error, retrying...", error);
-                    }
-                    await new Promise(resolve => setTimeout(resolve, delay));
-                    delay *= 2;
-                }
-                throw new Error("API call failed after multiple retries.");
-            };
-
-            generateAnalysisBtn.addEventListener('click', async () => {
-                const description = caseDescription.value;
-                if (!description.trim()) {
-                    analysisResult.innerHTML = "<p>Por favor, descreva um cenário para a análise.</p>";
-                    analysisResult.classList.remove('hidden');
-                    return;
-                }
-
-                btnText.classList.add('hidden');
-                btnLoader.classList.remove('hidden');
-                generateAnalysisBtn.disabled = true;
-                analysisResult.classList.add('hidden');
-
-                const systemPrompt = "Você é um perito contábil trabalhista sênior no Brasil, com vasta experiência em liquidação de sentenças para a Justiça do Trabalho. Sua especialidade é traduzir decisões judiciais complexas em cálculos precisos. Um assessor de um juiz descreveu um cenário de um caso. Sua tarefa é criar um roteiro de análise pericial conciso e estruturado em tópicos. O roteiro deve destacar os principais passos, os documentos essenciais a serem analisados (ex: holerites, cartões de ponto, PCCS, convenções coletivas) e os pontos de atenção cruciais para aquele cenário específico. A resposta deve ser direta, profissional e formatada em HTML simples com parágrafos `<p>` e listas não ordenadas `<ul><li>`. Não inclua saudações ou despedidas, vá direto ao roteiro.";
-                
-                const payload = {
-                    contents: [{ parts: [{ text: description }] }],
-                    systemInstruction: { parts: [{ text: systemPrompt }] },
-                };
-
-                try {
-                    const result = await callGeminiAPI(payload, 'gemini-2.5-flash-preview-09-2025');
-                    const candidate = result.candidates?.[0];
-                    if (candidate && candidate.content?.parts?.[0]?.text) {
-                        analysisResult.innerHTML = candidate.content.parts[0].text;
-                    } else {
-                        analysisResult.innerHTML = "<p>Não foi possível gerar a análise. Por favor, tente novamente.</p>";
-                    }
-                } catch (error) {
-                    console.error('Error calling Gemini API:', error);
-                    analysisResult.innerHTML = "<p>Ocorreu um erro ao conectar com o assistente. Por favor, tente mais tarde.</p>";
-                } finally {
-                    analysisResult.classList.remove('hidden');
-                    btnText.classList.remove('hidden');
-                    btnLoader.classList.add('hidden');
-                    generateAnalysisBtn.disabled = false;
-                }
-            });
-
-            const playAudioBtn = document.getElementById('play-audio-btn');
-            const audioPlayer = document.getElementById('presentation-audio');
-            const audioIconPlay = document.getElementById('audio-icon-play');
-            const audioLoader = document.getElementById('audio-loader');
-            let audioUrl = null;
-
-            const base64ToArrayBuffer = (base64) => {
-                const binaryString = window.atob(base64);
-                const len = binaryString.length;
-                const bytes = new Uint8Array(len);
-                for (let i = 0; i < len; i++) {
-                    bytes[i] = binaryString.charCodeAt(i);
-                }
-                return bytes.buffer;
-            };
-        
-            const pcmToWav = (pcmData, sampleRate) => {
-                const numChannels = 1;
-                const bytesPerSample = 2;
-                const blockAlign = numChannels * bytesPerSample;
-                const byteRate = sampleRate * blockAlign;
-                const dataSize = pcmData.byteLength;
-                const buffer = new ArrayBuffer(44 + dataSize);
-                const view = new DataView(buffer);
-
-                function writeString(view, offset, string) {
-                    for (let i = 0; i < string.length; i++) {
-                        view.setUint8(offset + i, string.charCodeAt(i));
-                    }
-                }
-
-                writeString(view, 0, 'RIFF');
-                view.setUint32(4, 36 + dataSize, true);
-                writeString(view, 8, 'WAVE');
-                writeString(view, 12, 'fmt ');
-                view.setUint32(16, 16, true);
-                view.setUint16(20, 1, true);
-                view.setUint16(22, numChannels, true);
-                view.setUint32(24, sampleRate, true);
-                view.setUint32(28, byteRate, true);
-                view.setUint16(32, blockAlign, true);
-                view.setUint16(34, bytesPerSample * 8, true);
-                writeString(view, 36, 'data');
-                view.setUint32(40, dataSize, true);
-                
-                const pcm16 = new Int16Array(pcmData);
-                for (let i = 0; i < pcm16.length; i++) {
-                    view.setInt16(44 + i * 2, pcm16[i], true);
-                }
-
-                return new Blob([view], { type: 'audio/wav' });
-            };
-
-
-            playAudioBtn.addEventListener('click', async () => {
-                if (audioPlayer.paused && audioUrl) {
-                    audioPlayer.play();
-                } else if (audioUrl) {
-                    audioPlayer.pause();
-                } else {
-                    audioIconPlay.classList.add('hidden');
-                    audioLoader.classList.remove('hidden');
-                    playAudioBtn.disabled = true;
-
-                    const textToSpeech = "Diga com um tom de voz profissional, claro e confiante: Olá. Meu nome é Bruno Gomes dos Santos, perito contábil trabalhista. Com especialização em perícia e auditoria e mais de 2.000 laudos realizados, meu compromisso é oferecer laudos objetivos, fundamentados e precisos, garantindo segurança jurídica e agilidade processual para o juízo. Atuo com foco em cálculos complexos, sempre com total observância ao julgado.";
-                    const payload = {
-                        contents: [{ parts: [{ text: textToSpeech }] }],
-                        generationConfig: {
-                            responseModalities: ["AUDIO"],
-                            speechConfig: {
-                                voiceConfig: { prebuiltVoiceConfig: { voiceName: "Charon" } }
-                            }
-                        },
-                    };
-                    
-                    try {
-                        const result = await callGeminiAPI(payload, 'gemini-2.5-flash-preview-tts');
-                        const part = result?.candidates?.[0]?.content?.parts?.[0];
-                        const audioData = part?.inlineData?.data;
-                        const mimeType = part?.inlineData?.mimeType;
-
-                        if (audioData && mimeType && mimeType.startsWith("audio/")) {
-                            const sampleRateMatch = mimeType.match(/rate=(\d+)/);
-                            const sampleRate = sampleRateMatch ? parseInt(sampleRateMatch[1], 10) : 24000;
-                            const pcmData = base64ToArrayBuffer(audioData);
-                            const wavBlob = pcmToWav(pcmData, sampleRate);
-                            audioUrl = URL.createObjectURL(wavBlob);
-                            audioPlayer.src = audioUrl;
-                            audioPlayer.play();
-                        } else {
-                           throw new Error("Invalid audio data in response.");
-                        }
-                    } catch (error) {
-                        console.error('Error generating TTS:', error);
-                    } finally {
-                        audioIconPlay.classList.remove('hidden');
-                        audioLoader.classList.add('hidden');
-                        playAudioBtn.disabled = false;
-                    }
-                }
-            });
-
-             audioPlayer.onplay = () => {
-                audioIconPlay.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />`;
-            };
-
-            audioPlayer.onpause = () => {
-                audioIconPlay.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />`;
-            };
-
         });
     </script>
 </body>
