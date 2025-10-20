@@ -8,11 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Professional Navy & Gold -->
-    <!-- Application Structure Plan: A single-page application with a fixed top navigation to allow busy court officials to quickly jump to key sections. The structure is thematic: 'Início' for a strong first impression, 'Sobre' for credibility, 'Diferenciais' for value proposition, 'Método' for process transparency, and 'Casos de Sucesso' for an interactive proof gallery. This non-linear structure is designed for a professional audience that needs to find specific information (like proof of experience) quickly and efficiently. A new Gemini-powered 'Assistente' section was added to demonstrate technical proficiency and provide interactive value. -->
-    <!-- Visualization & Content Choices: Report Info -> Goal -> Viz/Presentation -> Interaction -> Justification. 1. Credentials/History -> Build Trust -> Two-column text & image layout -> Static -> Clean, professional layout. 2. Benefits/Promise -> Highlight Value -> Icon-based grid -> Static -> Easily scannable benefits. 3. Work Method -> Show Process -> Numbered step-by-step visual flow using HTML/CSS -> Static -> Clearly illustrates a structured, reliable process. 4. Annexes/Proofs -> Provide Evidence -> Interactive Image Gallery -> User filters by category & clicks to view in a modal -> Prevents a long scroll, handled with Vanilla JS. 5. Gemini Assistant -> Showcase Expertise -> Interactive Text Input -> User types a case scenario, clicks a button, and Gemini generates an analysis plan -> This dynamically demonstrates the expert's thought process. 6. Gemini TTS -> Add Personal Touch -> Audio Playback Button -> User clicks to hear a professionally voiced introduction -> Adds accessibility and a modern feel. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
-    <style>
+    <!-- Chosen Palette: Professional Navy & Gold --><!-- Application Structure Plan: A single-page application with a fixed top navigation to allow busy court officials to quickly jump to key sections. The structure is thematic: 'Início' for a strong first impression, 'Sobre' for credibility, 'Diferenciais' for value proposition, 'Método' for process transparency, and 'Casos de Sucesso' for an an interactive proof gallery. This non-linear structure is designed for a professional audience that needs to find specific information (like proof of experience) quickly and efficiently. A new Gemini-powered 'Assistente' section was added to demonstrate technical proficiency and provide interactive value. --><!-- Visualization & Content Choices: Report Info -> Goal -> Viz/Presentation -> Interaction -> Justification. 1. Credentials/History -> Build Trust -> Two-column text & image layout -> Static -> Clean, professional layout. 2. Benefits/Promise -> Highlight Value -> Icon-based grid -> Static -> Easily scannable benefits. 3. Work Method -> Show Process -> Numbered step-by-step visual flow using HTML/CSS -> Static -> Clearly illustrates a structured, reliable process. 4. Annexes/Proofs -> Provide Evidence -> Interactive Image Gallery -> User filters by category & clicks to view in a modal -> Prevents a long scroll, handled with Vanilla JS. 5. Gemini Assistant -> Showcase Expertise -> Interactive Text Input -> User types a case scenario, clicks a button, and Gemini generates an analysis plan -> This dynamically demonstrates the expert's thought process. 6. Gemini TTS -> Add Personal Touch -> Audio Playback Button -> User clicks to hear a professionally voiced introduction -> Adds accessibility and a modern feel. --><!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. --><style>
         body {
             font-family: 'Montserrat', sans-serif;
             background-color: #F7F9FC;
@@ -86,7 +82,9 @@
 
     <header id="header" class="bg-navy text-white p-4 fixed w-full top-0 z-50 shadow-lg">
         <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold text-gold">BG</h1>
+            <a href="#inicio" class="flex items-center">
+                <img src="images/logotipo.png" alt="Bruno Gomes Logotipo" class="h-8 md:h-10">
+            </a>
             <nav class="hidden md:flex space-x-6">
                 <a href="#inicio" class="nav-link active-link">Início</a>
                 <a href="#sobre" class="nav-link">Sobre</a>
@@ -264,9 +262,9 @@
                 { src: 'images/nomeacao2.png', category: 'Nomeação', caption: 'Designação TRT 5ª - Banco Bradesco S.A.' },
                 { src: 'images/nomeacao3.png', category: 'Nomeação', caption: 'Intimação TRT 5ª - Banco Bradesco S.A.' },
                 { src: 'images/nomeacao4.png', category: 'Nomeação', caption: 'Intimação TRT 5ª - Banco Bradesco S.A. (2)' },
-                { src: 'images/nomeacao5.png', category: 'Nomeação', caption: 'Nomeação TRT 5ª - Caixa Econômica Federal' },
+                { src: 'images/nomeacao5.png', category: 'Nomeação', caption: 'Intimação TRT 5ª - Correios e Telégrafos' },
                 { src: 'images/nomeacao6.png', category: 'Nomeação', caption: 'Intimação TRT 5ª - Banco do Brasil SA' },
-                { src: 'images/nomeacao7.png', category: 'Nomeação', caption: 'Nomeação TRT 5ª - Correios e Telégrafos' },
+                { src: 'images/nomeacao7.png', category: 'Nomeação', caption: 'Intimação TRT 5ª - Correios e Telégrafos (2)' },
                 { src: 'images/nomeacao8.png', category: 'Nomeação', caption: 'Designação TRT 5ª - Correios e Telégrafos (2)' },
                 { src: 'images/nomeacao9.png', category: 'Nomeação', caption: 'Redesignação de Perícia TRT 5ª' },
                 { src: 'images/nomeacao10.png', category: 'Nomeação', caption: 'Nomeação em Substituição' },
@@ -359,7 +357,7 @@
             const btnLoader = document.getElementById('btn-loader');
 
             const callGeminiAPI = async (payload, model) => {
-                const apiKey = "";
+                const apiKey = ""; // Substitua pela sua chave de API Gemini
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
                 
                 let response;
@@ -542,3 +540,4 @@
     </script>
 </body>
 </html>
+
